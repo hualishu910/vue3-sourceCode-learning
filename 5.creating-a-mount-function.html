@@ -1,0 +1,54 @@
+<style>
+  .red {
+    color: red;
+  }
+</style>
+<div id="app"></div>
+
+<script>
+  // 渲染函数 直接返回一个简单的 vNode
+  function h(tag, props, children) {
+    return {
+      tag,
+      props,
+      children
+    }
+  }
+
+  // 将 vNode 挂载到真实的 DOM 上面
+  function mount(vnode, container) {
+    // 根据 vNode 信息创建 DOM
+    const el = vnode.el = document.createElement(vnode.tag)
+
+    // props
+    if (vnode.props) {
+      for (const key in vnode.props) {
+        const value = vnode.props[key];
+        // 设置 DOM 的属性
+        el.setAttribute(key, value)
+      }
+    }
+    // children
+    if (vnode.children) {
+      // 如果是字符串，直接修改 textContent
+      if (typeof vnode.children === 'string') {
+        el.textContent = vnode.children
+      } else {
+        // 数组里面默认都是 vNode
+        vnode.children.forEach(child => {
+          mount(child, el)
+        })
+      }
+    }
+
+    // 将创建的 DOM 元素放到 container 中
+    container.appendChild(el)
+  }
+
+  // 直接 h、mount 即可看到页面上已经出现了红色的 hello
+  const vdom = h('div', { class: 'red' }, [
+    h('span', null, 'hello')
+  ])
+
+  mount(vdom, document.getElementById('app'))
+</script>
