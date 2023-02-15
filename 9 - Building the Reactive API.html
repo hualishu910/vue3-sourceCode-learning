@@ -75,7 +75,7 @@
     count: 1,
     price: 10
   })
-  // const total = reactive({ total: 123 })
+  const total = reactive({ total: 123 })
 
   watchEffect(() => {
     console.log(state.count)
@@ -83,9 +83,9 @@
   watchEffect(() => {
     console.log(state.count * state.price)
   })
-  // watchEffect(() => {
-  //   console.log(total.total)
-  // });
+  watchEffect(() => {
+    console.log(total.total)
+  });
 
   state.count++
 </script>
